@@ -1,0 +1,29 @@
+# Stage 1
+# FROM node:10-alpine as build-step
+# # RUN mkdir -p /app
+# WORKDIR /app
+# COPY package.json /app
+# RUN npm install
+# COPY . /app
+# RUN npm run build --prod
+
+
+
+# #stage 2
+
+# FROM nginx:1.17.1-alpine
+# COPY --from=build-step /app/dist/angularPOC /usr/share/nginx/html
+# EXPOSE 80
+ 
+
+# docker build -f frontend.Dockerfile -t ng-test-docker .
+
+FROM node:current-alpine3.12
+RUN apk add chromium
+WORKDIR /app
+
+ENV CHROME_BIN=/usr/bin/chromium-browser
+
+COPY . /app
+RUN npm install
+RUN npm run test
